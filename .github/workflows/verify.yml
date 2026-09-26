@@ -1,0 +1,34 @@
+name: Verify
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
+      - run: bundle install
+      - run: bundle exec jekyll build
+      - name: Verify content
+        run: |
+          echo "=== HOME PAGE ==="
+          grep -o "Junteng Liu" _site/index.html | head -1
+          grep -o "HKUST NLP Group" _site/index.html | head -1
+          grep -o "Zhiyuan Honor Scholarship" _site/index.html | head -1
+          grep -o "jliugi@connect.ust.hk" _site/index.html | head -1
+          grep -o "SynLogic" _site/index.html | head -1
+          grep -o "C-Eval" _site/index.html | head -1
+          grep -o "Universal Truthfulness Hyperplane" _site/index.html | head -1
+          echo "=== PUBLICATIONS PAGE ==="
+          grep -o "SynLogic" _site/publications/index.html | head -1
+          grep -o "Perception Bottleneck" _site/publications/index.html | head -1
+          grep -o "In-Context Sharpness" _site/publications/index.html | head -1
+          grep -o "Composing Parameter-Efficient" _site/publications/index.html | head -1
+          echo "=== CV PAGE ==="
+          grep -o "Shanghai Jiao Tong University" _site/cv/index.html | head -1
+          grep -o "MINIMAX" _site/cv/index.html | head -1
+          grep -o "Tencent WXG" _site/cv/index.html | head -1
+          grep -o "Shanghai AI Lab" _site/cv/index.html | head -1
